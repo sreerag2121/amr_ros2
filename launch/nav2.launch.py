@@ -22,7 +22,7 @@ def generate_launch_description():
             'autostart': autostart,
             'map': os.path.join(pkg_bcr, 'config', 'bcr_map.yaml'),
             'params_file': os.path.join(pkg_bcr, 'config', 'nav2_params.yaml'),
-            'package_path': pkg_bcr, 
+            'package_path': pkg_bcr,
         }.items()
     )
 
@@ -30,6 +30,7 @@ def generate_launch_description():
         package="rviz2",
         executable="rviz2",
         name="rviz2",
+        parameters=[{'use_sim_time': True}],
         arguments=[
             '-d' + os.path.join(
                 get_package_share_directory('nav2_bringup'),
@@ -37,14 +38,6 @@ def generate_launch_description():
                 'nav2_default_view.rviz'
             )
         ]
-    )
-    
-    amcl_node = Node(
-        package='nav2_amcl',
-        executable='amcl',
-        name='amcl',
-        output='screen',
-        parameters=[os.path.join(pkg_bcr, 'config', 'amcl_params.yaml')],
     )
 
     map_server_node = Node(
@@ -74,10 +67,8 @@ def generate_launch_description():
 
     ld.add_action(nav2_launch_cmd)
     ld.add_action(rviz_launch_cmd)
-    ld.add_action(amcl_node)
-    ld.add_action(map_server_node)
     ld.add_action(static_transform_publisher_node)
-    ld.add_action(remapper_node)
+
 
     return ld
 

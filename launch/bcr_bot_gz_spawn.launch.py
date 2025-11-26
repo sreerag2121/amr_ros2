@@ -125,5 +125,5 @@ def generate_launch_description():
         DeclareLaunchArgument("orientation_yaw", default_value="0.0"),
         DeclareLaunchArgument("odometry_source", default_value="world"),
         robot_state_publisher,
-        gz_spawn_entity, transform_publisher, gz_ros2_bridge
+        gz_spawn_entity, gz_ros2_bridge
     ])
