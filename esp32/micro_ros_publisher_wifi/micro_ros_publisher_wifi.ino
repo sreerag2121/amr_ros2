@@ -1,41 +1,35 @@
 #include <micro_ros_arduino.h>
 #include <WiFi.h>
-#include <stdio.h>
-#include <math.h>
-
 #include <rcl/rcl.h>
 #include <rcl/error_handling.h>
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
+#include <std_msgs/msg/int32.h>
 
-#include <nav_msgs/msg/odometry.h>
+// -------------------- ENCODER PINS --------------------
+#define ENC_A 18
+#define ENC_B 19
 
-#if !defined(ESP32)
-#error This example is only for ESP32
-#endif
+volatile long encoder_ticks = 0;
+
+// -------------------- ISR --------------------
+void IRAM_ATTR encoderISR() {
+  if (digitalRead(ENC_B) == HIGH)
+    encoder_ticks++;
+  else
+    encoder_ticks--;
+}
 
 // -------------------- ROS VARIABLES --------------------
-
 rcl_publisher_t publisher;
 rcl_timer_t timer;
 rclc_executor_t executor;
 rclc_support_t support;
 rcl_allocator_t allocator;
 rcl_node_t node;
-
-nav_msgs__msg__Odometry odom_msg;
-
-// -------------------- ROBOT VARIABLES --------------------
-
-float x = 0.0;
-float y = 0.0;
-float theta = 0.0;
-
-float linear_velocity = 0.1;
-float angular_velocity = 0.1;
+std_msgs__msg__Int32 msg;
 
 // -------------------- ERROR MACROS --------------------
-
 #define RCCHECK(fn) \
   { \
     rcl_ret_t temp_rc = fn; \
@@ -52,112 +46,80 @@ float angular_velocity = 0.1;
   }
 
 // -------------------- ERROR LOOP --------------------
-
-void error_loop()
-{
-  Serial.println("ERROR — stuck in error loop. Check agent IP and WiFi.");
-  while (1)
-  {
-    delay(100);
-  }
+void error_loop() {
+  Serial.println("ERROR — check agent and WiFi");
+  while (1) { delay(100); }
 }
 
 // -------------------- TIMER CALLBACK --------------------
-
-void timer_callback(rcl_timer_t * timer, int64_t last_call_time)
-{
+void timer_callback(rcl_timer_t * timer, int64_t last_call_time) {
   RCLC_UNUSED(last_call_time);
-
-  if (timer != NULL)
-  {
-    float dt = 0.1;
-
-    theta += angular_velocity * dt;
-    x += linear_velocity * cos(theta) * dt;
-    y += linear_velocity * sin(theta) * dt;
-
-    // Position
-    odom_msg.pose.pose.position.x = x;
-    odom_msg.pose.pose.position.y = y;
-    odom_msg.pose.pose.position.z = 0.0;
-
-    // Quaternion from yaw
-    odom_msg.pose.pose.orientation.x = 0.0;
-    odom_msg.pose.pose.orientation.y = 0.0;
-    odom_msg.pose.pose.orientation.z = sin(theta / 2.0);
-    odom_msg.pose.pose.orientation.w = cos(theta / 2.0);
-
-    // Velocity
-    odom_msg.twist.twist.linear.x  = linear_velocity;
-    odom_msg.twist.twist.angular.z = angular_velocity;
-
-    Serial.print("Publishing X: ");
-    Serial.print(x);
-    Serial.print("  Y: ");
-    Serial.print(y);
-    Serial.print("  Theta: ");
-    Serial.println(theta);
-
-    RCSOFTCHECK(rcl_publish(&publisher, &odom_msg, NULL));
+  if (timer != NULL) {
+    msg.data = (int32_t)encoder_ticks;
+    Serial.print("Ticks: ");
+    Serial.println(encoder_ticks);
+    RCSOFTCHECK(rcl_publish(&publisher, &msg, NULL));
   }
 }
 
 // -------------------- SETUP --------------------
-void setup()
-{
+void setup() {
   Serial.begin(115200);
   delay(3000);
-
   Serial.println("Booting...");
 
+  // Encoder pins
+  pinMode(ENC_A, INPUT_PULLUP);
+  pinMode(ENC_B, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(ENC_A), encoderISR, RISING);
+
+  // WiFi transport
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   delay(1000);
 
-  Serial.println("Starting WiFi transport...");
-
+  Serial.println("Starting WiFi...");
   set_microros_wifi_transports(
     "Dilshad",
     "12345678",
-    "10.80.47.214",
+    "10.70.192.214",
     8888);
 
-  delay(3000);  // increased from 2000
-  Serial.println("WiFi transport configured");
+  delay(3000);
+  Serial.println("WiFi configured");
 
   allocator = rcl_get_default_allocator();
 
-  // Keep retrying until agent is ready
+  // Wait for agent
   Serial.println("Waiting for agent...");
   while (rclc_support_init(&support, 0, NULL, &allocator) != RCL_RET_OK) {
-    Serial.println("Agent not ready, retrying...");
+    Serial.println("Retrying...");
     delay(1000);
   }
   Serial.println("Agent connected!");
 
-  RCCHECK(rclc_node_init_default(&node, "esp32_odom_node", "", &support));
+  RCCHECK(rclc_node_init_default(&node, "encoder_node", "", &support));
 
   RCCHECK(rclc_publisher_init_default(
     &publisher,
     &node,
-    ROSIDL_GET_MSG_TYPE_SUPPORT(nav_msgs, msg, Odometry),
-    "/odom"));
+    ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32),
+    "/encoder_ticks"));
 
   RCCHECK(rclc_timer_init_default(
     &timer,
     &support,
-    RCL_MS_TO_NS(100),
+    RCL_MS_TO_NS(50),
     timer_callback));
 
   RCCHECK(rclc_executor_init(&executor, &support.context, 1, &allocator));
   RCCHECK(rclc_executor_add_timer(&executor, &timer));
 
-  Serial.println("microROS fully started!");
+  Serial.println("Publishing to /encoder_ticks");
 }
-// -------------------- LOOP --------------------
 
-void loop()
-{
+// -------------------- LOOP --------------------
+void loop() {
   rclc_executor_spin_some(&executor, RCL_MS_TO_NS(10));
   delay(10);
 }
