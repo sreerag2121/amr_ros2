@@ -5,6 +5,7 @@
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
 #include <std_msgs/msg/int32.h>
+#include <geometry_msgs/msg/twist.h>
 
 // -------------------- ENCODER PINS --------------------
 #define ENC_A 18
@@ -22,27 +23,27 @@ void IRAM_ATTR encoderISR() {
 
 // -------------------- ROS VARIABLES --------------------
 rcl_publisher_t publisher;
+rcl_subscription_t subscriber;        
 rcl_timer_t timer;
 rclc_executor_t executor;
 rclc_support_t support;
 rcl_allocator_t allocator;
 rcl_node_t node;
-std_msgs__msg__Int32 msg;
+
+std_msgs__msg__Int32 tick_msg;
+geometry_msgs__msg__Twist cmd_vel_msg;
 
 // -------------------- ERROR MACROS --------------------
 #define RCCHECK(fn) \
   { \
     rcl_ret_t temp_rc = fn; \
-    if ((temp_rc != RCL_RET_OK)) { \
-      error_loop(); \
-    } \
+    if ((temp_rc != RCL_RET_OK)) { error_loop(); } \
   }
 
 #define RCSOFTCHECK(fn) \
   { \
     rcl_ret_t temp_rc = fn; \
-    if ((temp_rc != RCL_RET_OK)) { \
-    } \
+    (void)temp_rc; \
   }
 
 // -------------------- ERROR LOOP --------------------
@@ -51,14 +52,28 @@ void error_loop() {
   while (1) { delay(100); }
 }
 
-// -------------------- TIMER CALLBACK --------------------
+// -------------------- SUBSCRIBER CALLBACK --------------------
+void cmd_vel_callback(const void * msgin) {
+  const geometry_msgs__msg__Twist * msg =
+      (const geometry_msgs__msg__Twist *)msgin;
+
+  float linear_x  = msg->linear.x;
+  float angular_z = msg->angular.z;
+
+  Serial.print("Linear X: ");  Serial.println(linear_x);
+  Serial.print("Angular Z: "); Serial.println(angular_z);
+
+  // TODO: convert to wheel velocities / PWM here
+}
+
+// -------------------- TIMER CALLBACK (publisher) --------------------
 void timer_callback(rcl_timer_t * timer, int64_t last_call_time) {
   RCLC_UNUSED(last_call_time);
   if (timer != NULL) {
-    msg.data = (int32_t)encoder_ticks;
+    tick_msg.data = (int32_t)encoder_ticks;
     Serial.print("Ticks: ");
     Serial.println(encoder_ticks);
-    RCSOFTCHECK(rcl_publish(&publisher, &msg, NULL));
+    RCSOFTCHECK(rcl_publish(&publisher, &tick_msg, NULL));
   }
 }
 
@@ -68,29 +83,20 @@ void setup() {
   delay(3000);
   Serial.println("Booting...");
 
-  // Encoder pins
   pinMode(ENC_A, INPUT_PULLUP);
   pinMode(ENC_B, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(ENC_A), encoderISR, RISING);
 
-  // WiFi transport
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   delay(1000);
 
-  Serial.println("Starting WiFi...");
-  set_microros_wifi_transports(
-    "Dilshad",
-    "12345678",
-    "10.70.192.214",
-    8888);
-
+  set_microros_wifi_transports("Dilshad", "12345678", "10.70.192.214", 8888);
   delay(3000);
   Serial.println("WiFi configured");
 
   allocator = rcl_get_default_allocator();
 
-  // Wait for agent
   Serial.println("Waiting for agent...");
   while (rclc_support_init(&support, 0, NULL, &allocator) != RCL_RET_OK) {
     Serial.println("Retrying...");
@@ -100,22 +106,38 @@ void setup() {
 
   RCCHECK(rclc_node_init_default(&node, "encoder_node", "", &support));
 
+  // --- Publisher ---
   RCCHECK(rclc_publisher_init_default(
     &publisher,
     &node,
     ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32),
     "/encoder_ticks"));
 
+  // --- Subscriber ---                         
+  RCCHECK(rclc_subscription_init_default(
+    &subscriber,
+    &node,
+    ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Twist),
+    "/cmd_vel"));
+
+  // --- Timer ---
   RCCHECK(rclc_timer_init_default(
     &timer,
     &support,
     RCL_MS_TO_NS(50),
     timer_callback));
 
-  RCCHECK(rclc_executor_init(&executor, &support.context, 1, &allocator));
+  // executor needs 2 handles now: 1 timer + 1 subscriber 
+  RCCHECK(rclc_executor_init(&executor, &support.context, 2, &allocator));
   RCCHECK(rclc_executor_add_timer(&executor, &timer));
+  RCCHECK(rclc_executor_add_subscription(  
+    &executor,
+    &subscriber,
+    &cmd_vel_msg,
+    &cmd_vel_callback,
+    ON_NEW_DATA));
 
-  Serial.println("Publishing to /encoder_ticks");
+  Serial.println("Ready — publishing /encoder_ticks, subscribing /cmd_vel");
 }
 
 // -------------------- LOOP --------------------
