@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot name="my_amr" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find my_amr_description)/urdf/inertial_macros.xacro"/>
+  <xacro:include filename="$(find my_amr_description)/urdf/robot_base.xacro"/>
+  <xacro:include filename="$(find my_amr_description)/urdf/drive_wheels.xacro"/>
+  <xacro:include filename="$(find my_amr_description)/urdf/lidar.xacro"/>
+  <xacro:include filename="$(find my_amr_description)/urdf/gazebo_control.xacro"/>
+
+</robot>
