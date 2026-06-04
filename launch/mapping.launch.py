@@ -41,6 +41,7 @@ def generate_launch_description():
     rviz_launch_cmd = Node(
         package="rviz2",
         executable="rviz2",
+        remappings=[('/scan', '/bcr_bot/scan')],
         name="rviz2",
         arguments=[
             '-d', os.path.join(pkg_bcr, 'rviz', 'map.rviz')
