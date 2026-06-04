@@ -1,5 +1,3 @@
-# my_amr_description
-
 A differential drive AMR robot simulation built with ROS 2 Humble and Gazebo Fortress, featuring 2 drive wheels, 4 castor wheels, and a 2D LiDAR. Supports SLAM-based mapping and autonomous navigation with Nav2.
 
 ---
