@@ -7,7 +7,7 @@
   <xacro:property name="chassis_height"       value="0.19"/>
   <xacro:property name="chassis_mass"         value="12.0"/>
   <xacro:property name="traction_wheel_radius" value="0.10"/>
-  <xacro:property name="trolley_wheel_radius"  value="0.04"/>
+  <xacro:property name="trolley_wheel_radius"  value="0.044"/>
   <xacro:property name="trolley_track_width"   value="0.36"/>
   <xacro:property name="eps"                   value="0.002"/>
   <xacro:property name="castor_mass"           value="0.1"/>
@@ -28,11 +28,11 @@
   <link name="base_footprint"/>
   <link name="base_link"/>
 
-  <!-- exact same formula as bcr_bot -->
+  <!-- z = chassis_height/2 + 2*trolley_wheel_radius + eps = 0.095 + 0.088 + 0.002 = 0.185 -->
   <joint name="base_footprint_joint" type="fixed">
     <parent link="base_footprint"/>
     <child link="base_link"/>
-    <origin xyz="0 0 ${chassis_height/2 + traction_wheel_radius}" rpy="0 0 0"/>
+    <origin xyz="0 0 0.185" rpy="0 0 0"/>
   </joint>
 
   <link name="chassis_link">

@@ -4,7 +4,7 @@ project(my_amr_description)
 find_package(ament_cmake REQUIRED)
 
 install(
-  DIRECTORY urdf launch config rviz
+  DIRECTORY urdf launch config rviz worlds
   DESTINATION share/${PROJECT_NAME}
 )
 

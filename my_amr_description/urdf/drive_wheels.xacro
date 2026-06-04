@@ -5,7 +5,7 @@
   <xacro:property name="traction_wheel_width"   value="0.05"/>
   <xacro:property name="traction_track_width"   value="0.36"/>
   <xacro:property name="chassis_height"         value="0.19"/>
-  <xacro:property name="trolley_wheel_radius"   value="0.04"/>
+  <xacro:property name="trolley_wheel_radius"   value="0.044"/>
   <xacro:property name="eps"                    value="0.002"/>
   <xacro:property name="wheel_mass"             value="1.5"/>
 
@@ -31,7 +31,7 @@
 
     <!-- exact bcr_bot formula for wheel z -->
     <joint name="${name}_joint" type="continuous">
-      <parent link="chassis_link"/>
+      <parent link="base_link"/>
       <child link="${name}_link"/>
       <origin xyz="0 ${y_reflect * traction_track_width/2} ${-(chassis_height/2 + 2*trolley_wheel_radius + eps - traction_wheel_radius)}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
