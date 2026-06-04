@@ -136,12 +136,161 @@ To run Nav2 on bcr_bot:
 ros2 launch bcr_bot nav2.launch.py
 ```
 
-### Simulation and Visualization
-1. Gz Sim (Ignition Gazebo) (small_warehouse World):
-	![](res/gz.jpg)
+### Launch Sequence 
 
-2. Isaac Sim:
-	![](res/isaac.jpg) 
+push from inside bcr_bot folder and push to a new branch (git checkout -b amr-simulation-bcr)
 
-3. Rviz (Depth camera) (small_warehouse World):
-	![](res/rviz.jpg)
+for users to setup, following bcr installation instruction is necessary
+================================================================
+BCR BOT - SLAM MAPPING FULL LAUNCH SEQUENCE
+================================================================
+
+----------------------------------------------------------------
+ONE TIME SETUP - Add ROS sourcing to .bashrc
+----------------------------------------------------------------
+
+nano ~/.bashrc
+
+Add these two lines at the bottom of the file:
+    source /opt/ros/jazzy/setup.bash
+    source ~/ros2_ws/install/setup.bash
+
+Save: Ctrl+O → Enter → Ctrl+X
+
+Apply immediately:
+    source ~/.bashrc
+
+Verify (open new terminal and run):
+    echo $ROS_DISTRO
+    Expected output: jazzy
+
+----------------------------------------------------------------
+PRE-FLIGHT - Run once before every mapping session // Prolly Wont Be necessary
+----------------------------------------------------------------
+
+    rm -f ~/.ros/*.posegraph ~/.ros/*.data
+    mkdir -p ~/maps
+
+----------------------------------------------------------------
+TERMINAL 1 - Gazebo
+----------------------------------------------------------------
+
+    ros2 launch bcr_bot gz.launch.py \
+      two_d_lidar_enabled:=true \
+      world_file:=/home/dilshad/ros2_ws/install/bcr_bot/share/bcr_bot/worlds/small_warehouse.sdf
+
+    WAIT until Gazebo window fully opens and robot is visible.
+
+----------------------------------------------------------------
+TERMINAL 2 - SLAM Toolbox
+----------------------------------------------------------------
+
+    ros2 launch slam_toolbox online_async_launch.py \
+      use_sim_time:=true \
+      slam_params_file:=$HOME/my_slam_toolbox_params.yaml
+
+    WAIT until no errors appear in terminal.
+
+    Verify SLAM is receiving laser (new terminal):
+        ros2 topic info /scan
+        Subscription count should be: 1
+
+----------------------------------------------------------------
+TERMINAL 3 - RViz (just running rviz2 also works but then u have to manually add the TF, RobotModel,LaserScan,Map,Odometry etc..
+----------------------------------------------------------------
+
+    rviz2 -d ~/bcr_bot_slam.rviz /
+
+    Confirm before driving:
+        - Fixed Frame = map 
+        - Map starts GREY (not fully drawn)
+        - LaserScan dots visible around robot
+        - Robot model visible
+
+    WARNING: If map appears fully drawn instantly,
+    a pose graph was reloaded. Stop and run:
+        rm -f ~/.ros/*.posegraph ~/.ros/*.data
+    Then restart SLAM and RViz.
+
+----------------------------------------------------------------
+TERMINAL 4 - Teleop
+----------------------------------------------------------------
+
+    ros2 run teleop_twist_keyboard teleop_twist_keyboard \
+      --ros-args --remap cmd_vel:=/bcr_bot/cmd_vel
+
+
+__________________Running NAV 2_______________________
+
+ros2 launch bcr_bot nav2.launch.py use_sim_time:=true
+
+___Edit NAV2 Parameters___
+
+nano ~/ros2_ws/src/bcr_bot/config/nav2_params.yaml
+
+----------------------------------------------------------------
+TERMINAL 5 - Save Map (Before closing anything)
+----------------------------------------------------------------
+
+    Save for Nav2:
+        ros2 run nav2_map_server map_saver_cli \
+          -f ~/maps/warehouse_map \
+          --ros-args -p use_sim_time:=true
+
+    Save SLAM pose graph:
+        ros2 service call /slam_toolbox/save_map slam_toolbox/srv/SaveMap \
+          "name: {data: '/home/dilshad/maps/warehouse_map'}"
+
+    View map in WSL:
+        eog ~/maps/warehouse_map.pgm
+
+    Verify files saved:
+        ls -lh ~/maps/
+
+    Expected files:
+        warehouse_map.pgm
+        warehouse_map.yaml
+        warehouse_map.posegraph
+        warehouse_map.data
+
+    Export to Windows Desktop (optional):
+        cp ~/maps/warehouse_map.pgm /mnt/c/Users/Dilshad/Desktop/
+        cp ~/maps/warehouse_map.yaml /mnt/c/Users/Dilshad/Desktop/
+
+
+
+____________After Making changes build the project____
+cd ~/ros2_ws
+colcon build --packages-select bcr_bot --symlink-install
+source install/setup.bash
+
+
+
+
+----------------------------------------------------------------
+THINGS TO BE CAREFUL ABOUT
+----------------------------------------------------------------
+    6. If Gazebo window does not open, check:
+           echo $DISPLAY
+           echo $WAYLAND_DISPLAY
+
+================================================================
+QUICK REFERENCE CHEAT SHEET
+================================================================
+
+    Gazebo:
+        ros2 launch bcr_bot gz.launch.py two_d_lidar_enabled:=true world_file:=/home/dilshad/ros2_ws/install/bcr_bot/share/bcr_bot/worlds/small_warehouse.sdf
+
+    SLAM:
+        ros2 launch slam_toolbox online_async_launch.py use_sim_time:=true slam_params_file:=$HOME/my_slam_toolbox_params.yaml
+
+    RViz:
+        rviz2 -d ~/bcr_bot_slam.rviz
+
+    Teleop:
+        ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/bcr_bot/cmd_vel
+
+    Save Map:
+        ros2 run nav2_map_server map_saver_cli -f ~/maps/warehouse_map --ros-args -p use_sim_time:=true
+
+================================================================
