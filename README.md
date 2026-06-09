@@ -114,6 +114,51 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 > Teleop keys: `i` = forward, `j` = turn left, `l` = turn right, `k` = stop
 
 ---
+---
+
+## 🕹️ Joystick Teleoperation
+
+### Install joy package
+```bash
+sudo apt install ros-humble-joy -y
+```
+
+### Verify joystick is detected
+```bash
+ls /dev/input/js*   # should show js0
+```
+
+### Run joystick control (3 terminals)
+
+```bash
+# Terminal 1 — Launch Gazebo
+source /opt/ros/humble/setup.bash && source ~/amr_ws/install/setup.bash
+ros2 launch my_amr_description gazebo.launch.py
+```
+
+```bash
+# Terminal 2 — Joystick driver
+source /opt/ros/humble/setup.bash && source ~/amr_ws/install/setup.bash
+ros2 run joy joy_node
+```
+
+```bash
+# Terminal 3 — Joy to cmd_vel node
+source /opt/ros/humble/setup.bash && source ~/amr_ws/install/setup.bash
+ros2 run my_amr_description joy_to_cmd_vel.py
+```
+
+### Axis Mapping (PS4/Xbox style controller)
+
+| Axis | Stick | Controls |
+|------|-------|----------|
+| `axes[1]` | Left stick vertical | `linear.x` (forward/back) |
+| `axes[3]` | Right stick horizontal | `angular.z` (turn) |
+
+> If joystick is on a different device than `js0`:
+> ```bash
+> ros2 run joy joy_node --ros-args -p dev:=/dev/input/js1
+> ```
 
 ### Step 3 — Save the Map
 
