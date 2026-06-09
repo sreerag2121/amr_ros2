@@ -11,7 +11,7 @@ def generate_launch_description():
 
     pkg_path = get_package_share_directory('my_amr_description')
     xacro_file = os.path.join(pkg_path, 'urdf', 'robot.urdf.xacro')
-    world_file = os.path.join(pkg_path, 'worlds', 'amr_world.sdf')
+    world_file = os.path.join(pkg_path, 'worlds', 'warehouse.sdf')
     robot_description = xacro.process_file(xacro_file).toxml()
 
     # convert URDF to SDF so Ignition plugins are preserved
@@ -61,11 +61,12 @@ def generate_launch_description():
             '/clock@rosgraph_msgs/msg/Clock@ignition.msgs.Clock',
             '/tf@tf2_msgs/msg/TFMessage@ignition.msgs.Pose_V',
             '/model/my_amr/tf@tf2_msgs/msg/TFMessage@ignition.msgs.Pose_V',
-            '/world/amr_world/model/my_amr/joint_state@sensor_msgs/msg/JointState[ignition.msgs.Model',
+            '/world/warehouse_world/model/my_amr/joint_state@sensor_msgs/msg/JointState[ignition.msgs.Model',
+            '/lift_cmd@std_msgs/msg/Float64]ignition.msgs.Double',
         ],
         remappings=[
             ('/model/my_amr/tf', '/tf'),
-            ('/world/amr_world/model/my_amr/joint_state', '/joint_states'),
+            ('/world/warehouse_world/model/my_amr/joint_state', '/joint_states'),
         ],
         output='screen'
     )

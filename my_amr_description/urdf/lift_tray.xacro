@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <link name="lift_tray_link">
+    <!-- Frame structure so LiDAR can see through the middle -->
+    <!-- Front Rail -->
+    <visual name="front_rail">
+      <origin xyz="0.25 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.35 0.02"/></geometry>
+      <material name="solid_black"><color rgba="0.1 0.1 0.1 1.0"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0.25 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.35 0.02"/></geometry>
+    </collision>
+
+    <!-- Back Rail -->
+    <visual name="back_rail">
+      <origin xyz="-0.25 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.35 0.02"/></geometry>
+      <material name="solid_black"/>
+    </visual>
+    <collision>
+      <origin xyz="-0.25 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.35 0.02"/></geometry>
+    </collision>
+
+    <!-- Left Rail -->
+    <visual name="left_rail">
+      <origin xyz="0 0.15 0" rpy="0 0 0"/>
+      <geometry><box size="0.45 0.05 0.02"/></geometry>
+      <material name="solid_black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0.15 0" rpy="0 0 0"/>
+      <geometry><box size="0.45 0.05 0.02"/></geometry>
+    </collision>
+
+    <!-- Right Rail -->
+    <visual name="right_rail">
+      <origin xyz="0 -0.15 0" rpy="0 0 0"/>
+      <geometry><box size="0.45 0.05 0.02"/></geometry>
+      <material name="solid_black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.15 0" rpy="0 0 0"/>
+      <geometry><box size="0.45 0.05 0.02"/></geometry>
+    </collision>
+
+    <!-- Pistons - Long enough to remain inside chassis even when fully lifted -->
+    <visual name="piston_1">
+      <origin xyz="0.25 0.15 -0.10" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.015" length="0.20"/></geometry>
+      <material name="silver">
+        <color rgba="0.8 0.8 0.8 1.0"/>
+      </material>
+    </visual>
+    <visual name="piston_2">
+      <origin xyz="0.25 -0.15 -0.10" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.015" length="0.20"/></geometry>
+      <material name="silver"/>
+    </visual>
+    <visual name="piston_3">
+      <origin xyz="-0.25 0.15 -0.10" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.015" length="0.20"/></geometry>
+      <material name="silver"/>
+    </visual>
+    <visual name="piston_4">
+      <origin xyz="-0.25 -0.15 -0.10" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.015" length="0.20"/></geometry>
+      <material name="silver"/>
+    </visual>
+
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.005" iyy="0.005" izz="0.005" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <!-- Prismatic joint - raised to rest just above LiDAR -->
+  <joint name="lift_joint" type="prismatic">
+    <parent link="chassis_link"/>
+    <child link="lift_tray_link"/>
+    <origin xyz="0 0 0.175" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="0.0" upper="0.10" effort="10000" velocity="0.05"/>
+  </joint>
+
+  <!-- Gazebo specific material configurations mapped to named visuals -->
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
+  <gazebo reference="front_rail"><material>Gazebo/Black</material></gazebo>
+  <gazebo reference="back_rail"><material>Gazebo/Black</material></gazebo>
+  <gazebo reference="left_rail"><material>Gazebo/Black</material></gazebo>
+  <gazebo reference="right_rail"><material>Gazebo/Black</material></gazebo>
+  
+  <gazebo reference="piston_1"><material>Gazebo/Silver</material></gazebo>
+  <gazebo reference="piston_2"><material>Gazebo/Silver</material></gazebo>
+  <gazebo reference="piston_3"><material>Gazebo/Silver</material></gazebo>
+  <gazebo reference="piston_4"><material>Gazebo/Silver</material></gazebo>
+</robot>

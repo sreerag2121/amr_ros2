@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <!-- Differential Drive -->
   <gazebo>
     <plugin filename="libignition-gazebo6-diff-drive-system.so"
             name="ignition::gazebo::systems::DiffDrive">
@@ -19,11 +20,27 @@
     </plugin>
   </gazebo>
 
+  <!-- Joint State Publisher — includes lift_joint now -->
   <gazebo>
     <plugin filename="libignition-gazebo6-joint-state-publisher-system.so"
             name="ignition::gazebo::systems::JointStatePublisher">
       <joint_name>left_wheel_joint</joint_name>
       <joint_name>right_wheel_joint</joint_name>
+      <joint_name>lift_joint</joint_name>
+    </plugin>
+  </gazebo>
+
+  <!-- Lift Joint Position Controller -->
+  <gazebo>
+    <plugin filename="libignition-gazebo6-joint-position-controller-system.so"
+            name="ignition::gazebo::systems::JointPositionController">
+      <joint_name>lift_joint</joint_name>
+      <topic>/lift_cmd</topic>
+      <p_gain>10000</p_gain>
+      <i_gain>0</i_gain>
+      <d_gain>1000</d_gain>
+      <cmd_max>10000</cmd_max>
+      <cmd_min>-10000</cmd_min>
     </plugin>
   </gazebo>
 
