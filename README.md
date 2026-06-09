@@ -153,6 +153,22 @@ ros2 run rviz2 rviz2 -d $(ros2 pkg prefix nav2_bringup)/share/nav2_bringup/rviz/
 > 4. Robot navigates autonomously 🤖
 
 ---
+## Lift Tray Control
+
+Source the workspace first:
+```bash
+source ~/amr_ws/install/setup.bash
+```
+
+Raise the tray:
+```bash
+ros2 topic pub /lift_cmd std_msgs/msg/Float64 "data: 0.10" --once
+```
+
+Lower the tray:
+```bash
+ros2 topic pub /lift_cmd std_msgs/msg/Float64 "data: 0.0" --once
+```
 
 ## 🗂 Package Structure
 
