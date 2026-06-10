@@ -7,7 +7,7 @@
   <xacro:property name="chassis_height"         value="0.19"/>
   <xacro:property name="trolley_wheel_radius"   value="0.044"/>
   <xacro:property name="eps"                    value="0.002"/>
-  <xacro:property name="wheel_mass"             value="1.5"/>
+  <xacro:property name="wheel_mass"             value="30.0"/>
 
   <xacro:macro name="drive_wheel" params="name y_reflect">
     <link name="${name}_link">
@@ -38,8 +38,10 @@
     </joint>
 
     <gazebo reference="${name}_link">
-      <mu1>5.0</mu1>
-      <mu2>5.0</mu2>
+      <mu1>200.0</mu1>
+      <mu2>200.0</mu2>
+      <kp>1000000.0</kp>
+      <kd>100.0</kd>
       <material>Gazebo/Orange</material>
     </gazebo>
   </xacro:macro>

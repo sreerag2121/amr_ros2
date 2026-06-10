@@ -60,14 +60,18 @@ def generate_launch_description():
             '/scan@sensor_msgs/msg/LaserScan@ignition.msgs.LaserScan',
             '/clock@rosgraph_msgs/msg/Clock@ignition.msgs.Clock',
             '/tf@tf2_msgs/msg/TFMessage@ignition.msgs.Pose_V',
-            '/model/my_amr/tf@tf2_msgs/msg/TFMessage@ignition.msgs.Pose_V',
             '/world/warehouse_world/model/my_amr/joint_state@sensor_msgs/msg/JointState[ignition.msgs.Model',
             '/lift_cmd@std_msgs/msg/Float64]ignition.msgs.Double',
         ],
         remappings=[
-            ('/model/my_amr/tf', '/tf'),
             ('/world/warehouse_world/model/my_amr/joint_state', '/joint_states'),
         ],
+        output='screen'
+    )
+
+    odom_tf_broadcaster = Node(
+        package='my_amr_description',
+        executable='odom_tf_broadcaster.py',
         output='screen'
     )
 
@@ -76,4 +80,5 @@ def generate_launch_description():
         robot_state_publisher,
         spawn_robot,
         bridge,
+        odom_tf_broadcaster,
     ])
