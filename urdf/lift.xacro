@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="bcr_bot">
+
+    <xacro:macro name="lift_mechanism">
+        <!-- TRAY LINK -->
+        <link name="lift_tray_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.55 0.50 0.015"/>
+                </geometry>
+                <material name="dark_grey">
+                    <color rgba="0.3 0.3 0.3 1.0"/>
+                </material>
+            </visual>
+            
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.55 0.50 0.015"/>
+                </geometry>
+            </collision>
+
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <mass value="3.0"/>
+                <!-- Uses existing macro -->
+                <xacro:box_inertia m="3.0" x="0.55" y="0.50" z="0.015"/>
+            </inertial>
+        </link>
+
+        <!-- LIFT JOINT -->
+        <joint name="lift_joint" type="prismatic">
+            <parent link="base_link"/>
+            <child link="lift_tray_link"/>
+            <!-- Placed at 0.18 to avoid collision with the LiDAR roof -->
+            <origin xyz="0 0 0.18" rpy="0 0 0" />
+            <axis xyz="0 0 1"/>
+            <limit lower="0.0" upper="0.35" effort="200.0" velocity="0.1"/>
+            <dynamics damping="10.0" friction="10.0"/>
+        </joint>
+
+        <!-- GAZEBO PHYSICS AND PLUGIN -->
+        <gazebo reference="lift_tray_link">
+            <material>Gazebo/DarkGrey</material>
+            <!-- High friction to hold the box -->
+            <mu1>2.0</mu1>
+            <mu2>2.0</mu2>
+        </gazebo>
+
+        <!-- Native Gazebo Joint Controller -->
+        <gazebo>
+            <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+                <joint_name>lift_joint</joint_name>
+                <!-- Custom ROS 2 compatible topic name (no numbers as tokens!) -->
+                <topic>/bcr_bot/lift_joint/cmd_pos</topic>
+                <p_gain>500</p_gain>
+                <i_gain>10</i_gain>
+                <d_gain>50</d_gain>
+                <i_max>100</i_max>
+                <i_min>-100</i_min>
+                <cmd_max>200</cmd_max>
+                <cmd_min>-200</cmd_min>
+            </plugin>
+        </gazebo>
+    </xacro:macro>
+
+</robot>

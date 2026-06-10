@@ -54,7 +54,7 @@
 
     <xacro:include filename="$(find bcr_bot)/urdf/materials.xacro"/>
     <xacro:include filename="$(find bcr_bot)/urdf/macros.xacro"/>
-
+    <xacro:include filename="$(find bcr_bot)/urdf/lift.xacro"/>
     <xacro:if value="$(arg sim_gazebo)">
         <xacro:include filename="$(find bcr_bot)/urdf/gazebo.xacro"/>
     </xacro:if>
@@ -317,6 +317,8 @@
         </joint>
 
     </xacro:if>
+    <!-- ............................. LIFT MECHANISM .................................. -->
+    <xacro:lift_mechanism/>
     <!-- ............................................................................... -->
 
 </robot>

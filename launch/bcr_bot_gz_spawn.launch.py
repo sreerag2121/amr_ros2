@@ -85,7 +85,8 @@ def generate_launch_description():
             "stereo_camera/right/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
             "/kinect_camera/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked",
             "/imu@sensor_msgs/msg/Imu[gz.msgs.IMU",
-            "/world/default/model/bcr_bot/joint_state@sensor_msgs/msg/JointState[gz.msgs.Model"
+            "/world/default/model/bcr_bot/joint_state@sensor_msgs/msg/JointState[gz.msgs.Model",
+            "/bcr_bot/lift_joint/cmd_pos@std_msgs/msg/Float64@gz.msgs.Double"
         ],
         remappings=[
             ('/world/default/model/bcr_bot/joint_state', 'bcr_bot/joint_states'),
@@ -99,7 +100,7 @@ def generate_launch_description():
             ('kinect_camera/camera_info', 'bcr_bot/kinect_camera/camera_info'),
             ('stereo_camera/left/camera_info', 'bcr_bot/stereo_camera/left/camera_info'),
             ('stereo_camera/right/camera_info', 'bcr_bot/stereo_camera/right/camera_info'),
-            ('/kinect_camera/points', 'bcr_bot/kinect_camera/points'),
+            ('/kinect_camera/points', 'bcr_bot/kinect_camera/points')
         ]
     )
 

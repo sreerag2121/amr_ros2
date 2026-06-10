@@ -5,7 +5,7 @@
 
     <gazebo>
         <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
-            <render_engine>ogre2</render_engine>
+            <render_engine>ogre</render_engine>
         </plugin>
 
         <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu">
@@ -21,7 +21,7 @@
             <right_joint>middle_right_wheel_joint</right_joint>
             <wheel_separation>${traction_track_width+traction_wheel_width-0.01}</wheel_separation>
             <wheel_radius>${traction_wheel_radius+0.01}</wheel_radius>
-            <odom_publish_frequency>30</odom_publish_frequency>
+            <odom_publish_frequency>50</odom_publish_frequency>
             <topic>/cmd_vel</topic>
             <xacro:if value="${odometry_source == 'encoders'}">
                 <odom_topic>$(arg wheel_odom_topic)</odom_topic>
@@ -43,7 +43,7 @@
             <odom_topic>$(arg wheel_odom_topic)</odom_topic>
             <tf_topic>/tf</tf_topic>
             <dimensions>2</dimensions>
-            <odom_publish_frequency>10</odom_publish_frequency>
+            <odom_publish_frequency>50</odom_publish_frequency>
         </plugin>
     </gazebo>
     </xacro:if>
@@ -87,7 +87,7 @@
     <xacro:if value="$(arg camera_enabled)">
         <gazebo reference="kinect_camera">
             <sensor type="depth_camera" name="kinect_camera">
-                <update_rate>30.0</update_rate>
+                <update_rate>10.0</update_rate>
                 <topic>kinect_camera</topic>
                 <gz_frame_id>kinect_camera</gz_frame_id>
                 <camera>
@@ -112,7 +112,7 @@
     <gazebo reference="imu_frame">
         <sensor name="imu_sensor" type="imu">
             <always_on>1</always_on>
-            <update_rate>1</update_rate>
+            <update_rate>50</update_rate>
             <gz_frame_id>imu_frame</gz_frame_id>
             <visualize>true</visualize>
             <topic>imu</topic>

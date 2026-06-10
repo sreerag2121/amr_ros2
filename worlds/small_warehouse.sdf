@@ -1,7 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <sdf version="1.6">
   <world name="default">
-
+    <scene>
+      <ambient>0.8 0.8 0.8 1.0</ambient>
+      <background>0.3 0.3 0.3 1.0</background>
+      <shadows>false</shadows>
+    </scene>
+    
         <model name="aws_robomaker_warehouse_WallB_01_001">
         <include>
             <uri>model://aws_robomaker_warehouse_WallB_01</uri>
@@ -64,6 +69,97 @@
                 </visual>
             </link>
         </model>
+
+        <!-- LIFT INTEGRATION - PILLARS, SHELF BEAM, AND BOX -->
+        
+        <model name="pickup_pillar_left">
+            <static>true</static>
+            <pose>1.5 -0.85 0.25 0 0 0</pose>
+            <link name="link">
+                <collision name="collision">
+                    <geometry><box><size>0.15 0.15 0.80</size></box></geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry><box><size>0.15 0.15 0.80</size></box></geometry>
+                    <material>
+                        <ambient>0.3 0.3 0.3 1</ambient>
+                        <diffuse>0.3 0.3 0.3 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <model name="pickup_pillar_right">
+            <static>true</static>
+            <pose>1.5 0.85 0.25 0 0 0</pose>
+            <link name="link">
+                <collision name="collision">
+                    <geometry><box><size>0.15 0.15 0.80</size></box></geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry><box><size>0.15 0.15 0.80</size></box></geometry>
+                    <material>
+                        <ambient>0.3 0.3 0.3 1</ambient>
+                        <diffuse>0.3 0.3 0.3 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <model name="pickup_shelf_beam">
+            <static>false</static>
+            <pose>1.5 0.0 0.81 0 0 0</pose>
+            <link name="link">
+                <inertial>
+                    <mass>3.0</mass>
+                    <inertia>
+                        <ixx>0.354</ixx> <ixy>0</ixy> <ixz>0</ixz>
+                        <iyy>0.040</iyy> <iyz>0</iyz> <izz>0.394</izz>
+                    </inertia>
+                </inertial>
+                <collision name="collision">
+                    <geometry><box><size>0.40 1.85 0.02</size></box></geometry>
+                    <surface>
+                        <friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction>
+                    </surface>
+                </collision>
+                <visual name="visual">
+                    <geometry><box><size>0.40 1.85 0.02</size></box></geometry>
+                    <material>
+                        <ambient>0.4 0.4 0.4 1</ambient>
+                        <diffuse>0.4 0.4 0.4 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <model name="pickup_box">
+            <static>false</static>
+            <pose>1.5 0.0 0.92 0 0 0</pose>
+            <link name="link">
+                <inertial>
+                    <mass>2.0</mass>
+                    <inertia>
+                        <ixx>0.0271</ixx> <ixy>0</ixy> <ixz>0</ixz>
+                        <iyy>0.0271</iyy> <iyz>0</iyz> <izz>0.0408</izz>
+                    </inertia>
+                </inertial>
+                <collision name="collision">
+                    <geometry><box><size>0.35 0.35 0.20</size></box></geometry>
+                    <surface>
+                        <friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction>
+                    </surface>
+                </collision>
+                <visual name="visual">
+                    <geometry><box><size>0.35 0.35 0.20</size></box></geometry>
+                    <material>
+                        <ambient>1.0 0.5 0.0 1</ambient>
+                        <diffuse>1.0 0.5 0.0 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
     <gui fullscreen='0'>
       <camera name='user_camera'>
         <pose>-3.90827 -4.65526 4.77216 0 0.623643 0.728194</pose>
