@@ -581,22 +581,22 @@
       <pose>-6 -4.5 0 0 0 0</pose>
       <link name="platform">
         <!-- Platform top -->
-        <visual name="top"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.60 0.02</size></box></geometry>
+        <visual name="top"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.80 0.02</size></box></geometry>
           <material><ambient>0.2 0.5 0.7 1</ambient><diffuse>0.25 0.55 0.75 1</diffuse></material></visual>
-        <collision name="topc"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.60 0.02</size></box></geometry></collision>
+        <collision name="topc"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.80 0.02</size></box></geometry></collision>
         <!-- 4 legs -->
-        <visual name="leg1"><pose>0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry>
+        <visual name="leg1"><pose>0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry>
           <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg1c"><pose>0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
-        <visual name="leg2"><pose>0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry>
+        <collision name="leg1c"><pose>0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <visual name="leg2"><pose>0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry>
           <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg2c"><pose>0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
-        <visual name="leg3"><pose>-0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry>
+        <collision name="leg2c"><pose>0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <visual name="leg3"><pose>-0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry>
           <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg3c"><pose>-0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
-        <visual name="leg4"><pose>-0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry>
+        <collision name="leg3c"><pose>-0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <visual name="leg4"><pose>-0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry>
           <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg4c"><pose>-0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <collision name="leg4c"><pose>-0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
         <!-- Cargo box on top -->
         <visual name="cargo"><pose>0 0 0.52 0 0 0</pose><geometry><box><size>0.40 0.50 0.20</size></box></geometry>
           <material><ambient>0.65 0.55 0.35 1</ambient><diffuse>0.70 0.60 0.40 1</diffuse></material></visual>
@@ -612,17 +612,17 @@
     <model name="cart_2">
       <pose>-6 1.5 0 0 0 0</pose>
       <link name="platform">
-        <visual name="top"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.60 0.02</size></box></geometry>
+        <visual name="top"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.80 0.02</size></box></geometry>
           <material><ambient>0.7 0.2 0.2 1</ambient><diffuse>0.75 0.25 0.25 1</diffuse></material></visual>
-        <collision name="topc"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.60 0.02</size></box></geometry></collision>
-        <visual name="leg1"><pose>0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg1c"><pose>0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
-        <visual name="leg2"><pose>0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg2c"><pose>0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
-        <visual name="leg3"><pose>-0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg3c"><pose>-0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
-        <visual name="leg4"><pose>-0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg4c"><pose>-0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <collision name="topc"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.80 0.02</size></box></geometry></collision>
+        <visual name="leg1"><pose>0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
+        <collision name="leg1c"><pose>0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <visual name="leg2"><pose>0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
+        <collision name="leg2c"><pose>0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <visual name="leg3"><pose>-0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
+        <collision name="leg3c"><pose>-0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <visual name="leg4"><pose>-0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
+        <collision name="leg4c"><pose>-0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
         <visual name="cargo"><pose>0 0 0.52 0 0 0</pose><geometry><box><size>0.40 0.50 0.20</size></box></geometry>
           <material><ambient>0.65 0.55 0.35 1</ambient><diffuse>0.70 0.60 0.40 1</diffuse></material></visual>
         <collision name="cargoc"><pose>0 0 0.52 0 0 0</pose><geometry><box><size>0.40 0.50 0.20</size></box></geometry></collision>
@@ -634,17 +634,17 @@
     <model name="cart_3">
       <pose>0 -4.5 0 0 0 0</pose>
       <link name="platform">
-        <visual name="top"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.60 0.02</size></box></geometry>
+        <visual name="top"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.80 0.02</size></box></geometry>
           <material><ambient>0.2 0.6 0.3 1</ambient><diffuse>0.25 0.65 0.35 1</diffuse></material></visual>
-        <collision name="topc"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.60 0.02</size></box></geometry></collision>
-        <visual name="leg1"><pose>0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg1c"><pose>0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
-        <visual name="leg2"><pose>0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg2c"><pose>0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
-        <visual name="leg3"><pose>-0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg3c"><pose>-0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
-        <visual name="leg4"><pose>-0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg4c"><pose>-0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <collision name="topc"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.80 0.02</size></box></geometry></collision>
+        <visual name="leg1"><pose>0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
+        <collision name="leg1c"><pose>0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <visual name="leg2"><pose>0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
+        <collision name="leg2c"><pose>0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <visual name="leg3"><pose>-0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
+        <collision name="leg3c"><pose>-0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <visual name="leg4"><pose>-0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
+        <collision name="leg4c"><pose>-0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
         <visual name="cargo"><pose>0 0 0.52 0 0 0</pose><geometry><box><size>0.40 0.50 0.20</size></box></geometry>
           <material><ambient>0.65 0.55 0.35 1</ambient><diffuse>0.70 0.60 0.40 1</diffuse></material></visual>
         <collision name="cargoc"><pose>0 0 0.52 0 0 0</pose><geometry><box><size>0.40 0.50 0.20</size></box></geometry></collision>
@@ -656,17 +656,17 @@
     <model name="cart_4">
       <pose>6 4.5 0 0 0 0</pose>
       <link name="platform">
-        <visual name="top"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.60 0.02</size></box></geometry>
+        <visual name="top"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.80 0.02</size></box></geometry>
           <material><ambient>0.6 0.3 0.6 1</ambient><diffuse>0.65 0.35 0.65 1</diffuse></material></visual>
-        <collision name="topc"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.60 0.02</size></box></geometry></collision>
-        <visual name="leg1"><pose>0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg1c"><pose>0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
-        <visual name="leg2"><pose>0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg2c"><pose>0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
-        <visual name="leg3"><pose>-0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg3c"><pose>-0.20 0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
-        <visual name="leg4"><pose>-0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
-        <collision name="leg4c"><pose>-0.20 -0.27 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <collision name="topc"><pose>0 0 0.41 0 0 0</pose><geometry><box><size>0.50 0.80 0.02</size></box></geometry></collision>
+        <visual name="leg1"><pose>0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
+        <collision name="leg1c"><pose>0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <visual name="leg2"><pose>0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
+        <collision name="leg2c"><pose>0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <visual name="leg3"><pose>-0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
+        <collision name="leg3c"><pose>-0.20 0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
+        <visual name="leg4"><pose>-0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.4 0.4 0.4 1</diffuse></material></visual>
+        <collision name="leg4c"><pose>-0.20 -0.37 0.20 0 0 0</pose><geometry><box><size>0.03 0.03 0.40</size></box></geometry></collision>
         <visual name="cargo"><pose>0 0 0.52 0 0 0</pose><geometry><box><size>0.40 0.50 0.20</size></box></geometry>
           <material><ambient>0.65 0.55 0.35 1</ambient><diffuse>0.70 0.60 0.40 1</diffuse></material></visual>
         <collision name="cargoc"><pose>0 0 0.52 0 0 0</pose><geometry><box><size>0.40 0.50 0.20</size></box></geometry></collision>
@@ -691,6 +691,37 @@
       <static>true</static><pose>6 0 0.001 0 0 0</pose>
       <link name="link"><visual name="vis"><geometry><box><size>0.10 14 0.002</size></box></geometry>
         <material><ambient>0.9 0.85 0.0 1</ambient><diffuse>0.95 0.90 0.1 1</diffuse></material></visual></link>
+    </model>
+
+    <!-- ========================================================
+         DOCKING STATIONS — U-shaped bays for drop-off
+    ======================================================== -->
+    <model name="dock_1">
+      <static>true</static><pose>10.5 1.8 0 0 0 0</pose>
+      <link name="link">
+        <visual name="pad"><pose>0 0 0.001 0 0 0</pose><geometry><box><size>1.2 1.0 0.002</size></box></geometry><material><ambient>0.0 0.8 0.2 1</ambient><diffuse>0.1 0.9 0.3 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="dock_2">
+      <static>true</static><pose>10.5 0.6 0 0 0 0</pose>
+      <link name="link">
+        <visual name="pad"><pose>0 0 0.001 0 0 0</pose><geometry><box><size>1.2 1.0 0.002</size></box></geometry><material><ambient>0.0 0.8 0.2 1</ambient><diffuse>0.1 0.9 0.3 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="dock_3">
+      <static>true</static><pose>10.5 -0.6 0 0 0 0</pose>
+      <link name="link">
+        <visual name="pad"><pose>0 0 0.001 0 0 0</pose><geometry><box><size>1.2 1.0 0.002</size></box></geometry><material><ambient>0.0 0.8 0.2 1</ambient><diffuse>0.1 0.9 0.3 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="dock_4">
+      <static>true</static><pose>10.5 -1.8 0 0 0 0</pose>
+      <link name="link">
+        <visual name="pad"><pose>0 0 0.001 0 0 0</pose><geometry><box><size>1.2 1.0 0.002</size></box></geometry><material><ambient>0.0 0.8 0.2 1</ambient><diffuse>0.1 0.9 0.3 1</diffuse></material></visual>
+      </link>
     </model>
 
   </world>

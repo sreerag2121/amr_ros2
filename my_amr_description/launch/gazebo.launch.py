@@ -72,7 +72,8 @@ def generate_launch_description():
     odom_tf_broadcaster = Node(
         package='my_amr_description',
         executable='odom_tf_broadcaster.py',
-        output='screen'
+        output='screen',
+        parameters=[{'use_sim_time': True}]
     )
 
     return LaunchDescription([
