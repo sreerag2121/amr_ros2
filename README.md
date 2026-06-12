@@ -265,3 +265,82 @@ my_amr_description/
 - slam_toolbox
 - Nav2
 - Ubuntu 22.04
+
+---
+
+### Step 5 — Autonomous Box Pickup Mission
+
+This runs the full mission: navigate to the cart, lift a box, drive to the docking station, and lower it.
+
+```bash
+# Terminal 1 — Gazebo simulation
+source /opt/ros/humble/setup.bash && source ~/amr_ws/install/setup.bash
+ros2 launch my_amr_description gazebo.launch.py
+```
+
+```bash
+# Terminal 2 — Nav2
+source /opt/ros/humble/setup.bash && source ~/amr_ws/install/setup.bash
+ros2 launch my_amr_description nav2.launch.py
+```
+
+```bash
+# Terminal 3 — Nav2 RViz view
+source /opt/ros/humble/setup.bash && source ~/amr_ws/install/setup.bash
+ros2 run rviz2 rviz2 -d $(ros2 pkg prefix nav2_bringup)/share/nav2_bringup/rviz/nav2_default_view.rviz
+```
+
+> In RViz, set the robot's initial pose with **2D Pose Estimate** and wait for AMCL to localize before running the task orchestrator.
+
+```bash
+# Terminal 4 — Run the autonomous task orchestrator
+source /opt/ros/humble/setup.bash && source ~/amr_ws/install/setup.bash
+ros2 run my_amr_description task_orchestrator.py --ros-args -p use_sim_time:=true
+```
+
+The orchestrator will:
+1. Navigate to the pre-cart position and align with the cart
+2. Drive into the cart and lift the box
+3. Back out and navigate to the docking station
+4. Align, drive in, and lower the box
+5. Return to the home position
+
+---
+
+## 🔄 Building the Workspace (Symlink Install)
+
+Use `--symlink-install` so edits to Python scripts and config files take effect without rebuilding:
+
+```bash
+cd ~/amr_ws
+colcon build --symlink-install
+```
+
+Make sure every new terminal is sourced. Add this to `~/.bashrc` so it's automatic:
+
+```bash
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+echo "source ~/amr_ws/install/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+---
+
+## 🧹 Killing All ROS 2 / Gazebo / Nav2 Processes
+
+If nodes from previous runs are left running across multiple terminals (causing duplicate node warnings or TF conflicts), run:
+
+```bash
+sudo pkill -9 -f "ros2|ign|gazebo|slam|rviz|robot_state|ros_gz|turtlebot|odom_tf_broadcaster|task_orchestrator|joy_node|joy_to_cmd_vel|component_container"
+sleep 2
+ros2 daemon stop && ros2 daemon start
+ros2 node list
+```
+
+`ros2 node list` should return empty. If any nodes remain, find their PIDs with:
+
+```bash
+ps aux | grep <node_name>
+```
+
+and kill them manually with `sudo kill -9 <PID>`.
