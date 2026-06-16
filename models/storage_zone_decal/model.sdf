@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<sdf version="1.8">
+  <model name="storage_zone_decal">
+    <static>true</static>
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://storage_zone_decal/meshes/storage_sign.dae</uri>
+            <scale>1.3 1.3 1.3</scale>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://storage_zone_decal/meshes/storage_sign.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

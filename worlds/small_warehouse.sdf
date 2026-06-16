@@ -6,16 +6,38 @@
       <background>0.3 0.3 0.3 1.0</background>
       <shadows>false</shadows>
     </scene>
-    
+    <include>
+  <uri>model://pickup_zone_decal</uri>
+  <pose>2.4 1.0 0.0 0 0 -2.9</pose>
+</include>
+<include>
+  <uri>model://storage_zone_decal</uri>
+  <pose>-4.3 6 0 0 0 -1.10</pose>
+</include>
+<include>
+  <uri>model://parking_zone_decal</uri>
+  <pose>-5 -8 0 0 0 1</pose>
+</include>
+
         <model name="aws_robomaker_warehouse_WallB_01_001">
         <include>
             <uri>model://aws_robomaker_warehouse_WallB_01</uri>
         </include>
         <pose frame="">0.0 0.0 0 0 0 0</pose>
 	</model>
-
-
-        <model name="aws_robomaker_warehouse_GroundB_01_001">
+    <model name="aws_robomaker_warehouse_ClutteringA_01">
+        <include>
+            <uri>model://aws_robomaker_warehouse_ClutteringA_01</uri>
+        </include>
+        <pose frame="">-0.84 2.14 0 0 0 0</pose>
+	</model>
+      <model name="aws_robomaker_warehouse_ClutteringC_01">
+        <include>
+            <uri>model://aws_robomaker_warehouse_ClutteringC_01</uri>
+        </include>
+        <pose frame="">-5.72 2.08 0 0 0 0</pose>
+	</model>
+    <model name="aws_robomaker_warehouse_GroundB_01_001">
         <include>
             <uri>model://aws_robomaker_warehouse_GroundB_01</uri>
         </include>
@@ -70,95 +92,147 @@
             </link>
         </model>
 
-        <!-- LIFT INTEGRATION - PILLARS, SHELF BEAM, AND BOX -->
         
-        <model name="pickup_pillar_left">
-            <static>true</static>
-            <pose>1.5 -0.85 0.25 0 0 0</pose>
-            <link name="link">
-                <collision name="collision">
-                    <geometry><box><size>0.15 0.15 0.80</size></box></geometry>
-                </collision>
-                <visual name="visual">
-                    <geometry><box><size>0.15 0.15 0.80</size></box></geometry>
-                    <material>
-                        <ambient>0.3 0.3 0.3 1</ambient>
-                        <diffuse>0.3 0.3 0.3 1</diffuse>
-                    </material>
-                </visual>
-            </link>
-        </model>
+<!-- ============================================================
+     PICKUP SHELF ASSEMBLY — single model, moves as one unit
+     Dimensions:
+       Pillars: 0.15 × 0.15 × 0.80m, top at z=0.65
+       Beam:    0.40 × 1.85 × 0.02m, rests on pillar tops at z=0.66
+       Box:     0.35 × 0.35 × 0.20m, sits on beam at z=0.77
+     Assembly center at x=1.5, y=0.0
+     ============================================================ -->
 
-        <model name="pickup_pillar_right">
-            <static>true</static>
-            <pose>1.5 0.85 0.25 0 0 0</pose>
-            <link name="link">
-                <collision name="collision">
-                    <geometry><box><size>0.15 0.15 0.80</size></box></geometry>
-                </collision>
-                <visual name="visual">
-                    <geometry><box><size>0.15 0.15 0.80</size></box></geometry>
-                    <material>
-                        <ambient>0.3 0.3 0.3 1</ambient>
-                        <diffuse>0.3 0.3 0.3 1</diffuse>
-                    </material>
-                </visual>
-            </link>
-        </model>
+<model name="pickup_shelf_assembly">
+  <static>false</static>
+  <pose>1.5 0.0 0.0 0 0 0</pose>
 
-        <model name="pickup_shelf_beam">
-            <static>false</static>
-            <pose>1.5 0.0 0.81 0 0 0</pose>
-            <link name="link">
-                <inertial>
-                    <mass>3.0</mass>
-                    <inertia>
-                        <ixx>0.354</ixx> <ixy>0</ixy> <ixz>0</ixz>
-                        <iyy>0.040</iyy> <iyz>0</iyz> <izz>0.394</izz>
-                    </inertia>
-                </inertial>
-                <collision name="collision">
-                    <geometry><box><size>0.40 1.85 0.02</size></box></geometry>
-                    <surface>
-                        <friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction>
-                    </surface>
-                </collision>
-                <visual name="visual">
-                    <geometry><box><size>0.40 1.85 0.02</size></box></geometry>
-                    <material>
-                        <ambient>0.4 0.4 0.4 1</ambient>
-                        <diffuse>0.4 0.4 0.4 1</diffuse>
-                    </material>
-                </visual>
-            </link>
-        </model>
+  <!-- ── LEFT PILLAR ────────────────────────────────────────── -->
+  <link name="pillar_left">
+    <pose>0.0 -0.60 0.30 0 0 0</pose>
+    <inertial>
+      <mass>5.0</mass>
+      <inertia>
+        <ixx>0.283</ixx><ixy>0</ixy><ixz>0</ixz>
+        <iyy>0.283</iyy><iyz>0</iyz>
+        <izz>0.006</izz>
+      </inertia>
+    </inertial>
+    <collision name="collision">
+      <geometry><box><size>0.15 0.15 0.58</size></box></geometry>
+      <surface>
+        <friction><ode><mu>0.8</mu><mu2>0.8</mu2></ode></friction>
+      </surface>
+    </collision>
+    <visual name="visual">
+      <geometry><box><size>0.15 0.15 0.58</size></box></geometry>
+      <material>
+        <ambient>0.3 0.3 0.3 1</ambient>
+        <diffuse>0.3 0.3 0.3 1</diffuse>
+      </material>
+    </visual>
+  </link>
 
-        <model name="pickup_box">
-            <static>false</static>
-            <pose>1.5 0.0 0.92 0 0 0</pose>
-            <link name="link">
-                <inertial>
-                    <mass>2.0</mass>
-                    <inertia>
-                        <ixx>0.0271</ixx> <ixy>0</ixy> <ixz>0</ixz>
-                        <iyy>0.0271</iyy> <iyz>0</iyz> <izz>0.0408</izz>
-                    </inertia>
-                </inertial>
-                <collision name="collision">
-                    <geometry><box><size>0.35 0.35 0.20</size></box></geometry>
-                    <surface>
-                        <friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction>
-                    </surface>
-                </collision>
-                <visual name="visual">
-                    <geometry><box><size>0.35 0.35 0.20</size></box></geometry>
-                    <material>
-                        <ambient>1.0 0.5 0.0 1</ambient>
-                        <diffuse>1.0 0.5 0.0 1</diffuse>
-                    </material>
-                </visual>
-            </link>
-        </model>
+  <!-- ── RIGHT PILLAR ───────────────────────────────────────── -->
+  <link name="pillar_right">
+    <pose>0.0 0.60 0.30 0 0 0</pose>
+    <inertial>
+      <mass>5.0</mass>
+      <inertia>
+        <ixx>0.283</ixx><ixy>0</ixy><ixz>0</ixz>
+        <iyy>0.283</iyy><iyz>0</iyz>
+        <izz>0.006</izz>
+      </inertia>
+    </inertial>
+    <collision name="collision">
+      <geometry><box><size>0.15 0.15 0.58</size></box></geometry>
+      <surface>
+        <friction><ode><mu>0.8</mu><mu2>0.8</mu2></ode></friction>
+      </surface>
+    </collision>
+    <visual name="visual">
+      <geometry><box><size>0.15 0.15 0.58</size></box></geometry>
+      <material>
+        <ambient>0.3 0.3 0.3 1</ambient>
+        <diffuse>0.3 0.3 0.3 1</diffuse>
+      </material>
+    </visual>
+  </link>
+
+  <!-- ── SHELF BEAM ─────────────────────────────────────────── -->
+  <!-- This is the canonical link — tray contacts here -->
+  <link name="shelf_beam">
+    <pose>0.0 0.0 0.55 0 0 0</pose>
+    <inertial>
+      <mass>3.0</mass>
+      <inertia>
+        <ixx>0.354</ixx><ixy>0</ixy><ixz>0</ixz>
+        <iyy>0.040</iyy><iyz>0</iyz>
+        <izz>0.394</izz>
+      </inertia>
+    </inertial>
+    <collision name="collision">
+      <geometry><box><size>0.40 1.3 0.02</size></box></geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>2.0</mu>
+            <mu2>2.0</mu2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="visual">
+      <geometry><box><size>0.40 1.3 0.02</size></box></geometry>
+      <material>
+        <ambient>0.5 0.5 0.5 1</ambient>
+        <diffuse>0.5 0.5 0.5 1</diffuse>
+      </material>
+    </visual>
+  </link>
+
+  <!-- ── BOX ────────────────────────────────────────────────── -->
+  <link name="box">
+    <pose>0.0 0.0 0.65 0 0 0</pose>
+    <inertial>
+      <mass>2.0</mass>
+      <inertia>
+        <ixx>0.027</ixx><ixy>0</ixy><ixz>0</ixz>
+        <iyy>0.027</iyy><iyz>0</iyz>
+        <izz>0.041</izz>
+      </inertia>
+    </inertial>
+    <collision name="collision">
+      <geometry><box><size>0.35 0.35 0.20</size></box></geometry>
+      <surface>
+        <friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction>
+      </surface>
+    </collision>
+    <visual name="visual">
+      <geometry><box><size>0.35 0.35 0.20</size></box></geometry>
+      <material>
+        <ambient>1.0 0.5 0.0 1</ambient>
+        <diffuse>1.0 0.5 0.0 1</diffuse>
+      </material>
+    </visual>
+  </link>
+
+  <!-- ── FIXED JOINTS — weld everything to shelf_beam ─────── -->
+  <joint name="beam_to_pillar_left" type="fixed">
+    <parent>shelf_beam</parent>
+    <child>pillar_left</child>
+  </joint>
+
+  <joint name="beam_to_pillar_right" type="fixed">
+    <parent>shelf_beam</parent>
+    <child>pillar_right</child>
+  </joint>
+
+  <joint name="beam_to_box" type="fixed">
+    <parent>shelf_beam</parent>
+    <child>box</child>
+  </joint>
+
+</model>
 
     <gui fullscreen='0'>
       <camera name='user_camera'>

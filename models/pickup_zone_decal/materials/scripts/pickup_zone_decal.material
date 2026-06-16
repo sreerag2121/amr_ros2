@@ -1,0 +1,14 @@
+material pickup_zone_decal/DecalMat
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            texture_unit
+            {
+                texture pickup_zone.png
+            }
+        }
+    }
+}

@@ -36,7 +36,7 @@
             <!-- Placed at 0.18 to avoid collision with the LiDAR roof -->
             <origin xyz="0 0 0.18" rpy="0 0 0" />
             <axis xyz="0 0 1"/>
-            <limit lower="0.0" upper="0.35" effort="200.0" velocity="0.1"/>
+            <limit lower="0.0" upper="0.4" effort="200.0" velocity="0.3"/>
             <dynamics damping="10.0" friction="10.0"/>
         </joint>
 
@@ -54,13 +54,13 @@
                 <joint_name>lift_joint</joint_name>
                 <!-- Custom ROS 2 compatible topic name (no numbers as tokens!) -->
                 <topic>/bcr_bot/lift_joint/cmd_pos</topic>
-                <p_gain>500</p_gain>
-                <i_gain>10</i_gain>
-                <d_gain>50</d_gain>
-                <i_max>100</i_max>
-                <i_min>-100</i_min>
-                <cmd_max>200</cmd_max>
-                <cmd_min>-200</cmd_min>
+                <p_gain>1500</p_gain>
+                <i_gain>100</i_gain>
+                <d_gain>100</d_gain>
+                <i_max>300</i_max>
+                <i_min>-300</i_min>
+                <cmd_max>400</cmd_max>
+                <cmd_min>-400</cmd_min>
             </plugin>
         </gazebo>
     </xacro:macro>
