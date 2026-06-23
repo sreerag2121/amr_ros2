@@ -323,3 +323,52 @@ ros2 run tf2_ros tf2_echo odom base_link
 sudo pkill -f odrivetool
 sudo pkill -f odrive
 ```
+
+---
+
+## Joystick Motor Control + Odometry Pipeline
+
+### Overview
+Joystick → joy_node → /joy → joy_to_cmd_vel → /cmd_vel → odrive_odom_node → motors + /odom → odom_subscriber_node
+
+### Pre-requisites
+- ODrive powered on and in closed loop (state 8) on both axes
+- Joystick connected via USB
+- odrivetool closed (only one program can use ODrive USB at a time)
+
+### Terminal 1 — Build and Run ODrive Odometry Node
+```bash
+cd ~/amr_ws
+colcon build --symlink-install --packages-select odrive_odom
+source install/setup.bash
+ros2 run odrive_odom odrive_odom_node
+```
+
+### Terminal 2 — Joystick Node
+```bash
+source ~/amr_ws/install/setup.bash
+ros2 run joy joy_node
+```
+
+### Terminal 3 — Joy to Cmd Vel
+```bash
+source ~/amr_ws/install/setup.bash
+ros2 run my_amr_description joy_to_cmd_vel
+```
+
+### Terminal 4 — Odometry Subscriber
+```bash
+source ~/amr_ws/install/setup.bash
+ros2 run odrive_odom odom_subscriber_node
+```
+
+### Joystick Mapping
+| Stick | Action |
+|---|---|
+| Left stick up/down | Forward / Backward |
+| Right stick left/right | Turn left / Turn right |
+
+### Notes
+- Motors stop automatically when odrive_odom_node is killed (Ctrl+C)
+- No rebuild needed for terminals 2, 3, 4 — just source
+- If motors dont respond, check ODrive is in state 8 via odrivetool
