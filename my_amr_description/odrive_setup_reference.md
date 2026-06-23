@@ -275,3 +275,51 @@ ros2 topic echo /odom
 ros2 topic hz /odom
 ros2 run tf2_ros tf2_echo odom base_link
 ```
+
+---
+
+## ROS 2 Odometry Subscriber Node
+- Node: `odom_subscriber_node.py`
+- Subscribes: `/odom`
+- Prints: position (x, y), yaw (degrees), linear and angular velocity
+
+```bash
+# Run subscriber node
+ros2 run odrive_odom odom_subscriber_node
+```
+
+---
+
+## Running Both Nodes Together
+
+### Terminal 1 — Odometry Publisher (connect ODrive first, close odrivetool)
+```bash
+cd ~/amr_ws
+source install/setup.bash
+ros2 run odrive_odom odrive_odom_node
+```
+
+### Terminal 2 — Odometry Subscriber
+```bash
+cd ~/amr_ws
+source install/setup.bash
+ros2 run odrive_odom odom_subscriber_node
+```
+
+### Terminal 3 — Extra monitoring (optional)
+```bash
+ros2 topic echo /odom
+ros2 topic echo /odom --field pose.pose.position
+ros2 topic echo /odom --field twist.twist
+ros2 topic hz /odom
+ros2 run tf2_ros tf2_echo odom base_link
+```
+
+### Important — ODrive must be free before running nodes
+- Close odrivetool completely before running odrive_odom_node
+- Only one program can talk to ODrive over USB at a time
+- Kill any leftover processes:
+```bash
+sudo pkill -f odrivetool
+sudo pkill -f odrive
+```
