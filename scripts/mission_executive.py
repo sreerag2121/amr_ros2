@@ -242,7 +242,7 @@ def main(args=None):
 
         # ── SWITCH TO LOADED CONFIG — safe now, robot in open space ──────
         node.get_logger().info("Switching to loaded configuration...")
-        node.set_footprint(node.footprint_loaded, inflation_radius=0.75)
+        node.set_footprint(node.footprint_loaded, inflation_radius=1.177)
 
         # ── TRANSIT: navigate to storage zone, loaded config ─────────────
         node.state = 'NAVIGATING_TO_STORAGE'
